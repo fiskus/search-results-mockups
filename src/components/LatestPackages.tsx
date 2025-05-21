@@ -6,8 +6,9 @@ import type { Package } from "~/types";
 
 export default function PackageTable({
   rows,
+  expanded = false,
   ...props
-}: M.TableContainerProps & { rows: Package[] }) {
+}: M.TableContainerProps & { expanded?: boolean; rows: Package[] }) {
   return (
     <M.TableContainer {...props}>
       <M.Table>
@@ -19,14 +20,14 @@ export default function PackageTable({
               </M.IconButton>
             </M.TableCell>
             <M.TableCell>Package</M.TableCell>
-            <M.TableCell>Revisions</M.TableCell>
-            <M.TableCell>Last Modified</M.TableCell>
             <M.TableCell>Last Commit</M.TableCell>
+            <M.TableCell align="right">Last Modified</M.TableCell>
+            <M.TableCell align="right">Revisions</M.TableCell>
           </M.TableRow>
         </M.TableHead>
         <M.TableBody>
           {rows.map((row, i) => (
-            <PackageHit key={i} row={row} />
+            <PackageHit key={i} row={row} open={expanded} />
           ))}
         </M.TableBody>
       </M.Table>

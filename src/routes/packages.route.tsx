@@ -21,10 +21,10 @@ export const Route = createFileRoute("/packages")({
       throw new Error("Failed to fetch users");
     }
   },
-  component: UsersLayoutComponent,
+  component: PackagesLayoutComponent,
 });
 
-function UsersLayoutComponent() {
+function PackagesLayoutComponent() {
   const packages = Route.useLoaderData();
 
   return (

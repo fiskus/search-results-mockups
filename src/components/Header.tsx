@@ -43,7 +43,7 @@ export default function Header() {
           onClose={() => setAnchorEl(null)}
           open={!!anchorEl}
         >
-          <M.MenuItem>
+          <M.MenuItem component={Link} to="/search">
             <M.ListItemIcon>
               <IconSearch />
             </M.ListItemIcon>

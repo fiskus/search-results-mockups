@@ -19,6 +19,7 @@ import { Route as PostsRouteImport } from './routes/posts.route'
 import { Route as PackagesRouteImport } from './routes/packages.route'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
+import { Route as SearchIndexImport } from './routes/search.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as PackagesIndexImport } from './routes/packages.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
@@ -76,6 +77,12 @@ const UsersIndexRoute = UsersIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => UsersRouteRoute,
+} as any)
+
+const SearchIndexRoute = SearchIndexImport.update({
+  id: '/search/',
+  path: '/search/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const PostsIndexRoute = PostsIndexImport.update({
@@ -230,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof PostsRouteImport
     }
+    '/search/': {
+      id: '/search/'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/users/': {
       id: '/users/'
       path: '/'
@@ -348,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
+  '/search': typeof SearchIndexRoute
   '/users/': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -364,6 +379,7 @@ export interface FileRoutesByTo {
   '/users/$userId': typeof UsersUserIdRoute
   '/packages': typeof PackagesIndexRoute
   '/posts': typeof PostsIndexRoute
+  '/search': typeof SearchIndexRoute
   '/users': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -385,6 +401,7 @@ export interface FileRoutesById {
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
+  '/search/': typeof SearchIndexRoute
   '/users/': typeof UsersIndexRoute
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/_pathlessLayout/_nested-layout/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -406,6 +423,7 @@ export interface FileRouteTypes {
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
+    | '/search'
     | '/users/'
     | '/route-a'
     | '/route-b'
@@ -421,6 +439,7 @@ export interface FileRouteTypes {
     | '/users/$userId'
     | '/packages'
     | '/posts'
+    | '/search'
     | '/users'
     | '/route-a'
     | '/route-b'
@@ -440,6 +459,7 @@ export interface FileRouteTypes {
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
+    | '/search/'
     | '/users/'
     | '/_pathlessLayout/_nested-layout/route-a'
     | '/_pathlessLayout/_nested-layout/route-b'
@@ -455,6 +475,7 @@ export interface RootRouteChildren {
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   RedirectRoute: typeof RedirectRoute
+  SearchIndexRoute: typeof SearchIndexRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -466,6 +487,7 @@ const rootRouteChildren: RootRouteChildren = {
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   RedirectRoute: RedirectRoute,
+  SearchIndexRoute: SearchIndexRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 
@@ -486,6 +508,7 @@ export const routeTree = rootRoute
         "/_pathlessLayout",
         "/deferred",
         "/redirect",
+        "/search/",
         "/posts_/$postId/deep"
       ]
     },
@@ -552,6 +575,9 @@ export const routeTree = rootRoute
     "/posts/": {
       "filePath": "posts.index.tsx",
       "parent": "/posts"
+    },
+    "/search/": {
+      "filePath": "search.index.tsx"
     },
     "/users/": {
       "filePath": "users.index.tsx",

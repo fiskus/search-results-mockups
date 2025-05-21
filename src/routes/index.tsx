@@ -73,7 +73,7 @@ function Home() {
             <M.Grid size="grow">
               <Paper>
                 <M.Typography variant="h6">S3 browser</M.Typography>
-                <M.Box sx={{ minHeight: 352, minWidth: 250 }}>
+                <M.Box sx={{ minHeight: 352, minWidth: 250, mt: 2 }}>
                   <SimpleTreeView>
                     <TreeItem itemId="j" label="s3://bucket">
                       <TreeItem itemId="a" label=".quilt" />
@@ -88,16 +88,16 @@ function Home() {
                         </TreeItem>
                       </TreeItem>
                       <TreeItem itemId="c" label="baz" />
-                    </TreeItem>
-                    <TreeItem itemId="d" label="project">
-                      <TreeItem itemId="e" label="data" />
-                      <TreeItem itemId="f" label="instruments" />
-                    </TreeItem>
-                    <TreeItem itemId="g" label="utils">
-                      <TreeItem itemId="h" label="helpers" />
-                    </TreeItem>
-                    <TreeItem itemId="i" label="ml">
-                      <TreeItem itemId="o" label="mdels" />
+                      <TreeItem itemId="d" label="project">
+                        <TreeItem itemId="e" label="data" />
+                        <TreeItem itemId="f" label="instruments" />
+                      </TreeItem>
+                      <TreeItem itemId="g" label="utils">
+                        <TreeItem itemId="h" label="helpers" />
+                      </TreeItem>
+                      <TreeItem itemId="i" label="ml">
+                        <TreeItem itemId="o" label="mdels" />
+                      </TreeItem>
                     </TreeItem>
                   </SimpleTreeView>
                 </M.Box>
