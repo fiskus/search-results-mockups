@@ -16,11 +16,14 @@ import { Route as DeferredImport } from './routes/deferred'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
 import { Route as UsersRouteImport } from './routes/users.route'
 import { Route as PostsRouteImport } from './routes/posts.route'
+import { Route as PackagesRouteImport } from './routes/packages.route'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
+import { Route as PackagesIndexImport } from './routes/packages.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
+import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 import { Route as PathlessLayoutNestedLayoutRouteBImport } from './routes/_pathlessLayout/_nested-layout/route-b'
@@ -57,6 +60,12 @@ const PostsRouteRoute = PostsRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const PackagesRouteRoute = PackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -75,6 +84,12 @@ const PostsIndexRoute = PostsIndexImport.update({
   getParentRoute: () => PostsRouteRoute,
 } as any)
 
+const PackagesIndexRoute = PackagesIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PackagesRouteRoute,
+} as any)
+
 const UsersUserIdRoute = UsersUserIdImport.update({
   id: '/$userId',
   path: '/$userId',
@@ -85,6 +100,12 @@ const PostsPostIdRoute = PostsPostIdImport.update({
   id: '/$postId',
   path: '/$postId',
   getParentRoute: () => PostsRouteRoute,
+} as any)
+
+const PackagesNameRoute = PackagesNameImport.update({
+  id: '/$name',
+  path: '/$name',
+  getParentRoute: () => PackagesRouteRoute,
 } as any)
 
 const PathlessLayoutNestedLayoutRoute = PathlessLayoutNestedLayoutImport.update(
@@ -123,6 +144,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/packages': {
+      id: '/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PackagesRouteImport
       parentRoute: typeof rootRoute
     }
     '/posts': {
@@ -167,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutNestedLayoutImport
       parentRoute: typeof PathlessLayoutImport
     }
+    '/packages/$name': {
+      id: '/packages/$name'
+      path: '/$name'
+      fullPath: '/packages/$name'
+      preLoaderRoute: typeof PackagesNameImport
+      parentRoute: typeof PackagesRouteImport
+    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/$postId'
@@ -180,6 +215,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/$userId'
       preLoaderRoute: typeof UsersUserIdImport
       parentRoute: typeof UsersRouteImport
+    }
+    '/packages/': {
+      id: '/packages/'
+      path: '/'
+      fullPath: '/packages/'
+      preLoaderRoute: typeof PackagesIndexImport
+      parentRoute: typeof PackagesRouteImport
     }
     '/posts/': {
       id: '/posts/'
@@ -220,6 +262,20 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface PackagesRouteRouteChildren {
+  PackagesNameRoute: typeof PackagesNameRoute
+  PackagesIndexRoute: typeof PackagesIndexRoute
+}
+
+const PackagesRouteRouteChildren: PackagesRouteRouteChildren = {
+  PackagesNameRoute: PackagesNameRoute,
+  PackagesIndexRoute: PackagesIndexRoute,
+}
+
+const PackagesRouteRouteWithChildren = PackagesRouteRoute._addFileChildren(
+  PackagesRouteRouteChildren,
+)
 
 interface PostsRouteRouteChildren {
   PostsPostIdRoute: typeof PostsPostIdRoute
@@ -281,13 +337,16 @@ const PathlessLayoutRouteWithChildren = PathlessLayoutRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/packages': typeof PackagesRouteRouteWithChildren
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
+  '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
@@ -300,8 +359,10 @@ export interface FileRoutesByTo {
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
+  '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/packages': typeof PackagesIndexRoute
   '/posts': typeof PostsIndexRoute
   '/users': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
@@ -312,14 +373,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/packages': typeof PackagesRouteRouteWithChildren
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
+  '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
@@ -331,13 +395,16 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/packages'
     | '/posts'
     | '/users'
     | ''
     | '/deferred'
     | '/redirect'
+    | '/packages/$name'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/packages/'
     | '/posts/'
     | '/users/'
     | '/route-a'
@@ -349,8 +416,10 @@ export interface FileRouteTypes {
     | ''
     | '/deferred'
     | '/redirect'
+    | '/packages/$name'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/packages'
     | '/posts'
     | '/users'
     | '/route-a'
@@ -359,14 +428,17 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/packages'
     | '/posts'
     | '/users'
     | '/_pathlessLayout'
     | '/deferred'
     | '/redirect'
     | '/_pathlessLayout/_nested-layout'
+    | '/packages/$name'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/packages/'
     | '/posts/'
     | '/users/'
     | '/_pathlessLayout/_nested-layout/route-a'
@@ -377,6 +449,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PackagesRouteRoute: typeof PackagesRouteRouteWithChildren
   PostsRouteRoute: typeof PostsRouteRouteWithChildren
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
@@ -387,6 +460,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PackagesRouteRoute: PackagesRouteRouteWithChildren,
   PostsRouteRoute: PostsRouteRouteWithChildren,
   UsersRouteRoute: UsersRouteRouteWithChildren,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
@@ -406,6 +480,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/packages",
         "/posts",
         "/users",
         "/_pathlessLayout",
@@ -416,6 +491,13 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/packages": {
+      "filePath": "packages.route.tsx",
+      "children": [
+        "/packages/$name",
+        "/packages/"
+      ]
     },
     "/posts": {
       "filePath": "posts.route.tsx",
@@ -451,6 +533,10 @@ export const routeTree = rootRoute
         "/_pathlessLayout/_nested-layout/route-b"
       ]
     },
+    "/packages/$name": {
+      "filePath": "packages.$name.tsx",
+      "parent": "/packages"
+    },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
@@ -458,6 +544,10 @@ export const routeTree = rootRoute
     "/users/$userId": {
       "filePath": "users.$userId.tsx",
       "parent": "/users"
+    },
+    "/packages/": {
+      "filePath": "packages.index.tsx",
+      "parent": "/packages"
     },
     "/posts/": {
       "filePath": "posts.index.tsx",

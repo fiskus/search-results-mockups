@@ -13,7 +13,7 @@ export default function Header() {
     <M.AppBar>
       <M.Container maxWidth="xl">
         <M.Toolbar>
-          <M.IconButton color="inherit">
+          <M.IconButton color="inherit" edge="start">
             <IconMenu />
           </M.IconButton>
 
@@ -32,7 +32,7 @@ export default function Header() {
           </M.Button>
 
           <M.Box ml={2}>
-            <M.IconButton color="inherit">
+            <M.IconButton color="inherit" edge="end">
               <IconPersonMenu />
             </M.IconButton>
           </M.Box>
