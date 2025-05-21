@@ -1,26 +1,13 @@
 import * as M from "@mui/material";
-import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
-import { DEPLOY_URL } from "../utils/users";
+import {
+  Link,
+  Outlet,
+  createFileRoute,
+  useMatchRoute,
+} from "@tanstack/react-router";
 import IconNavigateNext from "@mui/icons-material/NavigateNext";
 
-import LatestPackages from "~/components/LatestPackages";
-import type { Package } from "~/types";
-
-export const Route = createFileRoute("/search/")({
-  loader: async () => {
-    try {
-      const res = await fetch(DEPLOY_URL + "/api/packages");
-      if (!res.ok) {
-        throw new Error("Unexpected status code");
-      }
-
-      const data = (await res.json()) as Array<Package>;
-
-      return data;
-    } catch {
-      throw new Error("Failed to fetch users");
-    }
-  },
+export const Route = createFileRoute("/search")({
   component: PackagesIndexComponent,
 });
 
@@ -29,8 +16,9 @@ const Paper = M.styled(M.Paper)(({ theme }) => ({
 }));
 
 function PackagesIndexComponent() {
-  const packages = Route.useLoaderData();
-
+  // const matchRoute = useMatchRoute();
+  // const match = matchRoute({ to: "/search/packaged" });
+  // console.log({ match });
   return (
     <M.Box pt={8}>
       <M.Container maxWidth="xl">
@@ -40,7 +28,9 @@ function PackagesIndexComponent() {
               s3://active-bucket
             </M.Link>
             <M.Typography color="text.primary">Search</M.Typography>
-            <M.Typography color="text.primary">"test" in packaged objects</M.Typography>
+            <M.Typography color="text.primary">
+              "test" in packaged objects
+            </M.Typography>
           </M.Breadcrumbs>
         </M.Toolbar>
 
@@ -72,11 +62,9 @@ function PackagesIndexComponent() {
           </M.Grid>
 
           <M.Grid size="grow">
-            <LatestPackages component={M.Paper} rows={packages} expanded />
+            <Outlet />
           </M.Grid>
         </M.Grid>
-
-        <Outlet />
       </M.Container>
     </M.Box>
   );

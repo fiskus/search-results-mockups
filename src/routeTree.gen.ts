@@ -15,14 +15,15 @@ import { Route as RedirectImport } from './routes/redirect'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
 import { Route as UsersRouteImport } from './routes/users.route'
+import { Route as SearchRouteImport } from './routes/search.route'
 import { Route as PostsRouteImport } from './routes/posts.route'
 import { Route as PackagesRouteImport } from './routes/packages.route'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
-import { Route as SearchIndexImport } from './routes/search.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as PackagesIndexImport } from './routes/packages.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
+import { Route as SearchPackagedImport } from './routes/search.packaged'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
@@ -55,6 +56,12 @@ const UsersRouteRoute = UsersRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SearchRouteRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PostsRouteRoute = PostsRouteImport.update({
   id: '/posts',
   path: '/posts',
@@ -79,12 +86,6 @@ const UsersIndexRoute = UsersIndexImport.update({
   getParentRoute: () => UsersRouteRoute,
 } as any)
 
-const SearchIndexRoute = SearchIndexImport.update({
-  id: '/search/',
-  path: '/search/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const PostsIndexRoute = PostsIndexImport.update({
   id: '/',
   path: '/',
@@ -101,6 +102,12 @@ const UsersUserIdRoute = UsersUserIdImport.update({
   id: '/$userId',
   path: '/$userId',
   getParentRoute: () => UsersRouteRoute,
+} as any)
+
+const SearchPackagedRoute = SearchPackagedImport.update({
+  id: '/packaged',
+  path: '/packaged',
+  getParentRoute: () => SearchRouteRoute,
 } as any)
 
 const PostsPostIdRoute = PostsPostIdImport.update({
@@ -167,6 +174,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsRouteImport
       parentRoute: typeof rootRoute
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/users': {
       id: '/users'
       path: '/users'
@@ -216,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdImport
       parentRoute: typeof PostsRouteImport
     }
+    '/search/packaged': {
+      id: '/search/packaged'
+      path: '/packaged'
+      fullPath: '/search/packaged'
+      preLoaderRoute: typeof SearchPackagedImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/users/$userId': {
       id: '/users/$userId'
       path: '/$userId'
@@ -236,13 +257,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/posts/'
       preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof PostsRouteImport
-    }
-    '/search/': {
-      id: '/search/'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchIndexImport
-      parentRoute: typeof rootRoute
     }
     '/users/': {
       id: '/users/'
@@ -305,6 +319,18 @@ const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
   PostsRouteRouteChildren,
 )
 
+interface SearchRouteRouteChildren {
+  SearchPackagedRoute: typeof SearchPackagedRoute
+}
+
+const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchPackagedRoute: SearchPackagedRoute,
+}
+
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
+  SearchRouteRouteChildren,
+)
+
 interface UsersRouteRouteChildren {
   UsersUserIdRoute: typeof UsersUserIdRoute
   UsersIndexRoute: typeof UsersIndexRoute
@@ -353,16 +379,17 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/packages': typeof PackagesRouteRouteWithChildren
   '/posts': typeof PostsRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
-  '/search': typeof SearchIndexRoute
   '/users/': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -371,15 +398,16 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/search': typeof SearchRouteRouteWithChildren
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages': typeof PackagesIndexRoute
   '/posts': typeof PostsIndexRoute
-  '/search': typeof SearchIndexRoute
   '/users': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -391,6 +419,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/packages': typeof PackagesRouteRouteWithChildren
   '/posts': typeof PostsRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
@@ -398,10 +427,10 @@ export interface FileRoutesById {
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
-  '/search/': typeof SearchIndexRoute
   '/users/': typeof UsersIndexRoute
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/_pathlessLayout/_nested-layout/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
@@ -414,16 +443,17 @@ export interface FileRouteTypes {
     | '/'
     | '/packages'
     | '/posts'
+    | '/search'
     | '/users'
     | ''
     | '/deferred'
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/packaged'
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
-    | '/search'
     | '/users/'
     | '/route-a'
     | '/route-b'
@@ -431,15 +461,16 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/search'
     | ''
     | '/deferred'
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/packaged'
     | '/users/$userId'
     | '/packages'
     | '/posts'
-    | '/search'
     | '/users'
     | '/route-a'
     | '/route-b'
@@ -449,6 +480,7 @@ export interface FileRouteTypes {
     | '/'
     | '/packages'
     | '/posts'
+    | '/search'
     | '/users'
     | '/_pathlessLayout'
     | '/deferred'
@@ -456,10 +488,10 @@ export interface FileRouteTypes {
     | '/_pathlessLayout/_nested-layout'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/packaged'
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
-    | '/search/'
     | '/users/'
     | '/_pathlessLayout/_nested-layout/route-a'
     | '/_pathlessLayout/_nested-layout/route-b'
@@ -471,11 +503,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PackagesRouteRoute: typeof PackagesRouteRouteWithChildren
   PostsRouteRoute: typeof PostsRouteRouteWithChildren
+  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   RedirectRoute: typeof RedirectRoute
-  SearchIndexRoute: typeof SearchIndexRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -483,11 +515,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PackagesRouteRoute: PackagesRouteRouteWithChildren,
   PostsRouteRoute: PostsRouteRouteWithChildren,
+  SearchRouteRoute: SearchRouteRouteWithChildren,
   UsersRouteRoute: UsersRouteRouteWithChildren,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   RedirectRoute: RedirectRoute,
-  SearchIndexRoute: SearchIndexRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 
@@ -504,11 +536,11 @@ export const routeTree = rootRoute
         "/",
         "/packages",
         "/posts",
+        "/search",
         "/users",
         "/_pathlessLayout",
         "/deferred",
         "/redirect",
-        "/search/",
         "/posts_/$postId/deep"
       ]
     },
@@ -527,6 +559,12 @@ export const routeTree = rootRoute
       "children": [
         "/posts/$postId",
         "/posts/"
+      ]
+    },
+    "/search": {
+      "filePath": "search.route.tsx",
+      "children": [
+        "/search/packaged"
       ]
     },
     "/users": {
@@ -564,6 +602,10 @@ export const routeTree = rootRoute
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
     },
+    "/search/packaged": {
+      "filePath": "search.packaged.tsx",
+      "parent": "/search"
+    },
     "/users/$userId": {
       "filePath": "users.$userId.tsx",
       "parent": "/users"
@@ -575,9 +617,6 @@ export const routeTree = rootRoute
     "/posts/": {
       "filePath": "posts.index.tsx",
       "parent": "/posts"
-    },
-    "/search/": {
-      "filePath": "search.index.tsx"
     },
     "/users/": {
       "filePath": "users.index.tsx",
