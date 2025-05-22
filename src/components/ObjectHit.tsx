@@ -1,5 +1,7 @@
 import { useMemo, useRef, forwardRef, useState, useEffect } from "react";
 import * as M from "@mui/material";
+import IconDataObject from "@mui/icons-material/DataObject";
+
 import type { Entry } from "~/types";
 
 const Paper = M.styled(
@@ -64,6 +66,7 @@ export default function ObjectHit({
           }}
           onClose={() => setAnchorEl(null)}
           slots={{ paper: Paper, transition: M.Fade }}
+          slotProps={{ backdrop: { invisible: false } }}
           transitionDuration={100}
         >
           <M.TableContainer sx={{ width }}>
@@ -72,12 +75,30 @@ export default function ObjectHit({
                 <M.TableRow>
                   <M.TableCell>{entry.path}</M.TableCell>
                   <M.TableCell align="right">{entry.size}</M.TableCell>
-                  <M.TableCell align="right">
+                  <M.TableCell align="right" width="120px">
                     {entry.modified.toLocaleString()}
+                  </M.TableCell>
+                  <M.TableCell align="center" width="28px">
+                    {entry.meta && (
+                      <M.IconButton
+                        component={M.Link}
+                        size="small"
+                        sx={{ m: "-5px" }}
+                      >
+                        <IconDataObject fontSize="inherit" />
+                      </M.IconButton>
+                    )}
                   </M.TableCell>
                 </M.TableRow>
                 <M.TableRow>
-                  <M.TableCell colSpan={3}>
+                  <M.TableCell colSpan={4}>
+                    <M.Typography>
+                      Show entry level metadata if any
+                    </M.Typography>
+                  </M.TableCell>
+                </M.TableRow>
+                <M.TableRow>
+                  <M.TableCell colSpan={4}>
                     {src ? (
                       <img src={src} width="100%" height="320px" />
                     ) : (
@@ -91,7 +112,16 @@ export default function ObjectHit({
         </M.Popover>
       </M.TableCell>
       <M.TableCell align="right">{entry.size}</M.TableCell>
-      <M.TableCell align="right">{entry.modified.toLocaleString()}</M.TableCell>
+      <M.TableCell align="right" width="120px">
+        {entry.modified.toLocaleString()}
+      </M.TableCell>
+      <M.TableCell align="center" width="28px">
+        {entry.meta && (
+          <M.IconButton component={M.Link} size="small" sx={{ m: "-5px" }}>
+            <IconDataObject fontSize="inherit" />
+          </M.IconButton>
+        )}
+      </M.TableCell>
     </M.TableRow>
   );
 }

@@ -2,6 +2,7 @@ export interface Entry {
   modified: Date;
   path: string;
   size: number;
+  meta: boolean
 }
 
 export interface Package {
@@ -10,5 +11,6 @@ export interface Package {
   revisions: number;
   modified: Date;
   message: string;
+  metadata?: object;
   entries?: Entry[];
 }

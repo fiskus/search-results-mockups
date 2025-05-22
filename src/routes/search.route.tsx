@@ -58,6 +58,7 @@ function PackagesIndexComponent() {
                   </M.Link>
                 </M.RadioGroup>
               </M.FormControl>
+              <M.Typography variant="subtitle1">FIXME: Add workflow</M.Typography>
             </Paper>
           </M.Grid>
 

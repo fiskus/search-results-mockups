@@ -25,9 +25,9 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const Paper = M.styled(M.Paper)(({ theme }) => ({
+const Paper = M.styled(M.Paper)(({ theme }) => {console.log(theme);return ({
   padding: theme.spacing(2),
-}));
+})});
 
 function Home() {
   const { packages } = Route.useLoaderData();
@@ -129,3 +129,5 @@ function Home() {
     </M.Box>
   );
 }
+
+
