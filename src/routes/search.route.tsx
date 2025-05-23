@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import * as M from "@mui/material";
 import {
   Link,
@@ -16,9 +17,17 @@ const Paper = M.styled(M.Paper)(({ theme }) => ({
 }));
 
 function PackagesIndexComponent() {
-  // const matchRoute = useMatchRoute();
-  // const match = matchRoute({ to: "/search/packaged" });
-  // console.log({ match });
+  const matchRoute = useMatchRoute();
+
+  const matchPackaged = matchRoute({ to: "/search/packaged" });
+  const matchMetadataGrid = matchRoute({ to: "/search/metadata-grid" });
+  const matchWideTable = matchRoute({ to: "/search/wide-table" });
+  const mockupsMatch = useMemo(() => {
+    if (matchPackaged) return "compact";
+    if (matchMetadataGrid) return "grid";
+    if (matchWideTable) return "wide";
+  }, [matchPackaged, matchMetadataGrid, matchWideTable]);
+
   return (
     <M.Box pt={8}>
       <M.Container maxWidth="xl">
@@ -37,6 +46,38 @@ function PackagesIndexComponent() {
         <M.Grid container spacing={2}>
           <M.Grid size={3}>
             <M.Typography variant="h6">Filters</M.Typography>
+
+            <M.Typography sx={{ mt: 2 }} variant="subtitle1">
+              Mockups
+            </M.Typography>
+            <Paper sx={{ mt: 1 }}>
+              <M.FormControl>
+                <M.RadioGroup value={mockupsMatch}>
+                  <M.Link component={Link} to="/search/packaged">
+                    <M.FormControlLabel
+                      control={<M.Radio />}
+                      label="Compact table"
+                      value="compact"
+                    />
+                  </M.Link>
+                  <M.Link component={Link} to="/search/metadata-grid">
+                    <M.FormControlLabel
+                      control={<M.Radio />}
+                      label="Metadata grid"
+                      value="grid"
+                    />
+                  </M.Link>
+                  <M.Link component={Link} to="/search/wide-table">
+                    <M.FormControlLabel
+                      control={<M.Radio />}
+                      label="Wide table"
+                      value="wide"
+                    />
+                  </M.Link>
+                </M.RadioGroup>
+              </M.FormControl>
+            </Paper>
+
             <M.Typography sx={{ mt: 2 }} variant="subtitle1">
               Results type
             </M.Typography>

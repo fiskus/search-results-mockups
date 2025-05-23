@@ -24,6 +24,7 @@ import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as PackagesIndexImport } from './routes/packages.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as SearchPackagedImport } from './routes/search.packaged'
+import { Route as SearchMetadataGridImport } from './routes/search.metadata-grid'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
@@ -107,6 +108,12 @@ const UsersUserIdRoute = UsersUserIdImport.update({
 const SearchPackagedRoute = SearchPackagedImport.update({
   id: '/packaged',
   path: '/packaged',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchMetadataGridRoute = SearchMetadataGridImport.update({
+  id: '/metadata-grid',
+  path: '/metadata-grid',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -230,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdImport
       parentRoute: typeof PostsRouteImport
     }
+    '/search/metadata-grid': {
+      id: '/search/metadata-grid'
+      path: '/metadata-grid'
+      fullPath: '/search/metadata-grid'
+      preLoaderRoute: typeof SearchMetadataGridImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/packaged': {
       id: '/search/packaged'
       path: '/packaged'
@@ -320,10 +334,12 @@ const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
 )
 
 interface SearchRouteRouteChildren {
+  SearchMetadataGridRoute: typeof SearchMetadataGridRoute
   SearchPackagedRoute: typeof SearchPackagedRoute
 }
 
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchMetadataGridRoute: SearchMetadataGridRoute,
   SearchPackagedRoute: SearchPackagedRoute,
 }
 
@@ -386,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
@@ -404,6 +421,7 @@ export interface FileRoutesByTo {
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages': typeof PackagesIndexRoute
@@ -427,6 +445,7 @@ export interface FileRoutesById {
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
@@ -450,6 +469,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/metadata-grid'
     | '/search/packaged'
     | '/users/$userId'
     | '/packages/'
@@ -467,6 +487,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/metadata-grid'
     | '/search/packaged'
     | '/users/$userId'
     | '/packages'
@@ -488,6 +509,7 @@ export interface FileRouteTypes {
     | '/_pathlessLayout/_nested-layout'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/metadata-grid'
     | '/search/packaged'
     | '/users/$userId'
     | '/packages/'
@@ -564,6 +586,7 @@ export const routeTree = rootRoute
     "/search": {
       "filePath": "search.route.tsx",
       "children": [
+        "/search/metadata-grid",
         "/search/packaged"
       ]
     },
@@ -601,6 +624,10 @@ export const routeTree = rootRoute
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
+    },
+    "/search/metadata-grid": {
+      "filePath": "search.metadata-grid.tsx",
+      "parent": "/search"
     },
     "/search/packaged": {
       "filePath": "search.packaged.tsx",
