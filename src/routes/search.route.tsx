@@ -36,10 +36,12 @@ function PackagesIndexComponent() {
 
         <M.Grid container spacing={2}>
           <M.Grid size={3}>
-            <Paper>
-              <M.Typography variant="h6">Filters</M.Typography>
-              <M.FormControl sx={{ mt: 2 }}>
-                <M.FormLabel>Results type</M.FormLabel>
+            <M.Typography variant="h6">Filters</M.Typography>
+            <M.Typography sx={{ mt: 2 }} variant="subtitle1">
+              Results type
+            </M.Typography>
+            <Paper sx={{ mt: 1 }}>
+              <M.FormControl>
                 <M.RadioGroup value="yes">
                   <M.Link component={Link} to="/search/packaged">
                     <M.FormControlLabel
@@ -58,7 +60,25 @@ function PackagesIndexComponent() {
                   </M.Link>
                 </M.RadioGroup>
               </M.FormControl>
-              <M.Typography variant="subtitle1">FIXME: Add workflow</M.Typography>
+            </Paper>
+            <M.Typography sx={{ mt: 2 }} variant="subtitle1">
+              Workflow
+            </M.Typography>
+            <Paper sx={{ mt: 1 }}>
+              <M.FormGroup>
+                <M.FormControlLabel
+                  control={<M.Checkbox />}
+                  label="Workflow A"
+                />
+                <M.FormControlLabel
+                  control={<M.Checkbox />}
+                  label="Workflow B"
+                />
+                <M.FormControlLabel
+                  control={<M.Checkbox />}
+                  label="Workflow C"
+                />
+              </M.FormGroup>
             </Paper>
           </M.Grid>
 

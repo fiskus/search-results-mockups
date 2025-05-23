@@ -25,6 +25,5 @@ export const Route = createFileRoute("/search/packaged")({
 
 function RouteComponent() {
   const packages = Route.useLoaderData();
-  console.log({ packages });
   return <LatestPackages component={M.Paper} rows={packages} expanded />;
 }
