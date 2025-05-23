@@ -1,12 +1,12 @@
-# Welcome to TanStack.com!
+# Getting started
 
-This site is built with TanStack Router!
+```sh
+npm install
+npm run dev
+open http://localhost:3000
+```
 
-- [TanStack Router Docs](https://tanstack.com/router)
 
-It's deployed automagically with Netlify!
-
-- [Netlify](https://netlify.com/)
 
 ## Development
 
