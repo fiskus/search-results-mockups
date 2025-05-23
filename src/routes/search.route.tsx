@@ -22,15 +22,17 @@ function PackagesIndexComponent() {
   const matchPackaged = matchRoute({ to: "/search/packaged" });
   const matchMetadataGrid = matchRoute({ to: "/search/metadata-grid" });
   const matchWideTable = matchRoute({ to: "/search/wide-table" });
+  const matchCards = matchRoute({ to: "/search/cards" });
   const mockupsMatch = useMemo(() => {
     if (matchPackaged) return "compact";
     if (matchMetadataGrid) return "grid";
     if (matchWideTable) return "wide";
+    if (matchCards) return "cards";
   }, [matchPackaged, matchMetadataGrid, matchWideTable]);
 
   return (
     <M.Box pt={8}>
-      <M.Container maxWidth={matchWideTable ? false : "xl"}>
+      <M.Container maxWidth={matchWideTable ? false : matchCards ? "lg" : "xl"}>
         <M.Toolbar disableGutters>
           <M.Breadcrumbs separator={<IconNavigateNext fontSize="small" />}>
             <M.Link component={Link} to="/" color="inherit" underline="hover">
@@ -72,6 +74,13 @@ function PackagesIndexComponent() {
                       control={<M.Radio />}
                       label="Wide table"
                       value="wide"
+                    />
+                  </M.Link>
+                  <M.Link component={Link} to="/search/cards">
+                    <M.FormControlLabel
+                      control={<M.Radio />}
+                      label="Cards"
+                      value="cards"
                     />
                   </M.Link>
                 </M.RadioGroup>

@@ -26,6 +26,7 @@ import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as SearchWideTableImport } from './routes/search.wide-table'
 import { Route as SearchPackagedImport } from './routes/search.packaged'
 import { Route as SearchMetadataGridImport } from './routes/search.metadata-grid'
+import { Route as SearchCardsImport } from './routes/search.cards'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
@@ -121,6 +122,12 @@ const SearchPackagedRoute = SearchPackagedImport.update({
 const SearchMetadataGridRoute = SearchMetadataGridImport.update({
   id: '/metadata-grid',
   path: '/metadata-grid',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchCardsRoute = SearchCardsImport.update({
+  id: '/cards',
+  path: '/cards',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -244,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdImport
       parentRoute: typeof PostsRouteImport
     }
+    '/search/cards': {
+      id: '/search/cards'
+      path: '/cards'
+      fullPath: '/search/cards'
+      preLoaderRoute: typeof SearchCardsImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/metadata-grid': {
       id: '/search/metadata-grid'
       path: '/metadata-grid'
@@ -348,12 +362,14 @@ const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
 )
 
 interface SearchRouteRouteChildren {
+  SearchCardsRoute: typeof SearchCardsRoute
   SearchMetadataGridRoute: typeof SearchMetadataGridRoute
   SearchPackagedRoute: typeof SearchPackagedRoute
   SearchWideTableRoute: typeof SearchWideTableRoute
 }
 
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchCardsRoute: SearchCardsRoute,
   SearchMetadataGridRoute: SearchMetadataGridRoute,
   SearchPackagedRoute: SearchPackagedRoute,
   SearchWideTableRoute: SearchWideTableRoute,
@@ -418,6 +434,7 @@ export interface FileRoutesByFullPath {
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/cards': typeof SearchCardsRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/search/wide-table': typeof SearchWideTableRoute
@@ -438,6 +455,7 @@ export interface FileRoutesByTo {
   '/redirect': typeof RedirectRoute
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/cards': typeof SearchCardsRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/search/wide-table': typeof SearchWideTableRoute
@@ -463,6 +481,7 @@ export interface FileRoutesById {
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/packages/$name': typeof PackagesNameRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/search/cards': typeof SearchCardsRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
   '/search/wide-table': typeof SearchWideTableRoute
@@ -488,6 +507,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/cards'
     | '/search/metadata-grid'
     | '/search/packaged'
     | '/search/wide-table'
@@ -507,6 +527,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/cards'
     | '/search/metadata-grid'
     | '/search/packaged'
     | '/search/wide-table'
@@ -530,6 +551,7 @@ export interface FileRouteTypes {
     | '/_pathlessLayout/_nested-layout'
     | '/packages/$name'
     | '/posts/$postId'
+    | '/search/cards'
     | '/search/metadata-grid'
     | '/search/packaged'
     | '/search/wide-table'
@@ -608,6 +630,7 @@ export const routeTree = rootRoute
     "/search": {
       "filePath": "search.route.tsx",
       "children": [
+        "/search/cards",
         "/search/metadata-grid",
         "/search/packaged",
         "/search/wide-table"
@@ -647,6 +670,10 @@ export const routeTree = rootRoute
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
+    },
+    "/search/cards": {
+      "filePath": "search.cards.tsx",
+      "parent": "/search"
     },
     "/search/metadata-grid": {
       "filePath": "search.metadata-grid.tsx",
