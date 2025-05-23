@@ -2,8 +2,14 @@ export interface Entry {
   modified: Date;
   path: string;
   size: number;
-  meta: boolean
+  meta: boolean;
 }
+
+export type JsonValue = number | string | JsonValue[] | object;
+
+type Json = {
+  [key: string]: JsonValue;
+};
 
 export interface Package {
   name: string;
@@ -11,6 +17,6 @@ export interface Package {
   revisions: number;
   modified: Date;
   message: string;
-  metadata?: object;
+  metadata?: Json;
   entries?: Entry[];
 }

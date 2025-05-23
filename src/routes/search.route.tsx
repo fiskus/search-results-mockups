@@ -30,7 +30,7 @@ function PackagesIndexComponent() {
 
   return (
     <M.Box pt={8}>
-      <M.Container maxWidth="xl">
+      <M.Container maxWidth={matchWideTable ? false : "xl"}>
         <M.Toolbar disableGutters>
           <M.Breadcrumbs separator={<IconNavigateNext fontSize="small" />}>
             <M.Link component={Link} to="/" color="inherit" underline="hover">

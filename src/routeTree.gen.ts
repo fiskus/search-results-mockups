@@ -23,6 +23,7 @@ import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as PackagesIndexImport } from './routes/packages.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
+import { Route as SearchWideTableImport } from './routes/search.wide-table'
 import { Route as SearchPackagedImport } from './routes/search.packaged'
 import { Route as SearchMetadataGridImport } from './routes/search.metadata-grid'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
@@ -103,6 +104,12 @@ const UsersUserIdRoute = UsersUserIdImport.update({
   id: '/$userId',
   path: '/$userId',
   getParentRoute: () => UsersRouteRoute,
+} as any)
+
+const SearchWideTableRoute = SearchWideTableImport.update({
+  id: '/wide-table',
+  path: '/wide-table',
+  getParentRoute: () => SearchRouteRoute,
 } as any)
 
 const SearchPackagedRoute = SearchPackagedImport.update({
@@ -251,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchPackagedImport
       parentRoute: typeof SearchRouteImport
     }
+    '/search/wide-table': {
+      id: '/search/wide-table'
+      path: '/wide-table'
+      fullPath: '/search/wide-table'
+      preLoaderRoute: typeof SearchWideTableImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/users/$userId': {
       id: '/users/$userId'
       path: '/$userId'
@@ -336,11 +350,13 @@ const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
 interface SearchRouteRouteChildren {
   SearchMetadataGridRoute: typeof SearchMetadataGridRoute
   SearchPackagedRoute: typeof SearchPackagedRoute
+  SearchWideTableRoute: typeof SearchWideTableRoute
 }
 
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
   SearchMetadataGridRoute: SearchMetadataGridRoute,
   SearchPackagedRoute: SearchPackagedRoute,
+  SearchWideTableRoute: SearchWideTableRoute,
 }
 
 const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
@@ -404,6 +420,7 @@ export interface FileRoutesByFullPath {
   '/posts/$postId': typeof PostsPostIdRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
+  '/search/wide-table': typeof SearchWideTableRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
@@ -423,6 +440,7 @@ export interface FileRoutesByTo {
   '/posts/$postId': typeof PostsPostIdRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
+  '/search/wide-table': typeof SearchWideTableRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages': typeof PackagesIndexRoute
   '/posts': typeof PostsIndexRoute
@@ -447,6 +465,7 @@ export interface FileRoutesById {
   '/posts/$postId': typeof PostsPostIdRoute
   '/search/metadata-grid': typeof SearchMetadataGridRoute
   '/search/packaged': typeof SearchPackagedRoute
+  '/search/wide-table': typeof SearchWideTableRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/packages/': typeof PackagesIndexRoute
   '/posts/': typeof PostsIndexRoute
@@ -471,6 +490,7 @@ export interface FileRouteTypes {
     | '/posts/$postId'
     | '/search/metadata-grid'
     | '/search/packaged'
+    | '/search/wide-table'
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
@@ -489,6 +509,7 @@ export interface FileRouteTypes {
     | '/posts/$postId'
     | '/search/metadata-grid'
     | '/search/packaged'
+    | '/search/wide-table'
     | '/users/$userId'
     | '/packages'
     | '/posts'
@@ -511,6 +532,7 @@ export interface FileRouteTypes {
     | '/posts/$postId'
     | '/search/metadata-grid'
     | '/search/packaged'
+    | '/search/wide-table'
     | '/users/$userId'
     | '/packages/'
     | '/posts/'
@@ -587,7 +609,8 @@ export const routeTree = rootRoute
       "filePath": "search.route.tsx",
       "children": [
         "/search/metadata-grid",
-        "/search/packaged"
+        "/search/packaged",
+        "/search/wide-table"
       ]
     },
     "/users": {
@@ -631,6 +654,10 @@ export const routeTree = rootRoute
     },
     "/search/packaged": {
       "filePath": "search.packaged.tsx",
+      "parent": "/search"
+    },
+    "/search/wide-table": {
+      "filePath": "search.wide-table.tsx",
       "parent": "/search"
     },
     "/users/$userId": {

@@ -5,7 +5,7 @@ import IconArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import IconDataObject from "@mui/icons-material/DataObject";
 import IconAttachFile from "@mui/icons-material/AttachFile";
 
-import type { Package } from "~/types";
+import type { JsonValue, Package } from "~/types";
 import ObjectHit from "~/components/ObjectHit";
 
 const noTdBorder = {
@@ -49,7 +49,7 @@ function SubTable({
   }, []);
   return (
     <M.TableRow sx={(t) => ({ background: t.palette.action.hover, ...sx })}>
-      <M.TableCell padding="none" colSpan={5} sx={{ maxWidth: "100px" }}>
+      <M.TableCell padding="none" colSpan={18} sx={{ maxWidth: "100px" }}>
         <M.Collapse in={open}>
           <M.Stack direction="row">
             <M.Box m={2} color="text.secondary">
@@ -70,13 +70,19 @@ function SubTable({
   );
 }
 
-function MetadataValue({ value }: { value: string | number | object }) {
+function MetadataValue({ value }: { value: JsonValue }) {
   const [open, setOpen] = useState(false);
 
   if (typeof value === "string" || typeof value === "number")
     return <>{value}</>;
   if (value === null)
     return <M.Typography color="text.secondary">null</M.Typography>;
+  if (value === undefined)
+    return (
+      <M.Typography color="text.disabled" sx={{ textAlign: "center" }}>
+        -
+      </M.Typography>
+    );
   if (Array.isArray(value))
     return (
       <>
@@ -110,70 +116,77 @@ export default function PackageHit({
   return (
     <>
       <M.TableRow hover>
-        <M.TableCell padding="checkbox">
+        <TableCell padding="checkbox">
           <M.IconButton onClick={() => setOpen(!open)} disabled={!entries}>
             {open && !!entries ? <IconArrowDown /> : <IconArrowRight />}
           </M.IconButton>
-        </M.TableCell>
-        <M.TableCell component="th" scope="row">
+        </TableCell>
+        <TableCell component="th" scope="row">
           <M.Typography variant="body2">{row.name}</M.Typography>
           <M.Typography variant="caption" color="text.secondary">
             {row.bucket}
           </M.Typography>
-        </M.TableCell>
-        <M.TableCell>{row.message}</M.TableCell>
-        <M.TableCell align="right">{row.modified.toLocaleString()}</M.TableCell>
-        <M.TableCell align="right">{row.revisions}</M.TableCell>
+        </TableCell>
+        <TableCell>{row.message}</TableCell>
+        <TableCell align="right">{row.modified.toLocaleString()}</TableCell>
+        <TableCell align="right">{row.revisions}</TableCell>
+        <TableCell>{row.metadata && `${row.metadata.Author}`}</TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata.ComputerName} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata.Date} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && (
+            <MetadataValue value={row.metadata["DeseaseArea"]} />
+          )}
+        </TableCell>
+        <TableCell>
+          {row.metadata && (
+            <MetadataValue value={row.metadata["Drug Substance"]} />
+          )}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["ELN_ID"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["FolderName"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["Organism"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["ProjectID"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["StudyID"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["Target"]} />}
+        </TableCell>
+        <TableCell>
+          {row.metadata && (
+            <MetadataValue value={row.metadata["Test Material"]} />
+          )}
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["Tissue"]} />}
+        </TableCell>
       </M.TableRow>
-      {row.metadata && (
-        <SubTable
-          Icon={IconDataObject}
-          open={open}
-          scrolled
-          sx={{
-            "& > *": {
-              borderBottomColor: "#fff !important",
-              boxShadow: `0 1px 2px rgba(0, 0, 0, 0.08)`,
-            },
-          }}
-        >
-          <M.Table size="small">
-            <M.TableHead>
-              <M.TableRow>
-                {Object.keys(row.metadata).map((key, index) => (
-                  <TableCell key={index}>{key}</TableCell>
-                ))}
-              </M.TableRow>
-            </M.TableHead>
-            <M.TableBody>
-              <M.TableRow sx={noTdBorder}>
-                {Object.values(row.metadata).map((value, index) => (
-                  <M.TableCell
-                    key={index}
-                    sx={{
-                      whiteSpace: "nowrap",
-                      maxWidth: "80px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <MetadataValue value={value} />
-                  </M.TableCell>
-                ))}
-              </M.TableRow>
-            </M.TableBody>
-          </M.Table>
-        </SubTable>
-      )}
       {entries && (
         <SubTable Icon={IconAttachFile} open={open}>
-          <M.Table size="small">
+          <M.Table size="small" sx={{ width: "auto" }}>
             <M.TableHead>
               <M.TableRow>
                 <M.TableCell>Path</M.TableCell>
                 <M.TableCell align="right">Size</M.TableCell>
-                <M.TableCell align="right" width="120px">Modified</M.TableCell>
-                <M.TableCell align="center" width="28px">Meta</M.TableCell>
+                <M.TableCell align="right" width="120px">
+                  Modified
+                </M.TableCell>
+                <M.TableCell align="center" width="28px">
+                  Meta
+                </M.TableCell>
               </M.TableRow>
             </M.TableHead>
             <M.TableBody>
