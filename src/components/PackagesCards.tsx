@@ -11,7 +11,7 @@ export default function PackageTable({
   return (
     <M.Box width="100%" {...props}>
       {rows.map((row, i) => (
-        <PackageCard key={i} row={row} open={expanded} sx={{mb: 2}}/>
+        <PackageCard key={i} row={row} open={expanded} sx={{ mb: 2 }} />
       ))}
     </M.Box>
   );
