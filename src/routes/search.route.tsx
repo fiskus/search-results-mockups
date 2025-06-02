@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import * as M from "@mui/material";
+import * as Lab from "@mui/lab";
 import {
   Link,
   Outlet,
@@ -8,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import IconNavigateNext from "@mui/icons-material/NavigateNext";
 
+import type { FileRouteTypes } from "~/routeTree.gen";
+
 export const Route = createFileRoute("/search")({
   component: PackagesIndexComponent,
 });
@@ -15,6 +18,35 @@ export const Route = createFileRoute("/search")({
 const Paper = M.styled(M.Paper)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
+
+const Timeline = M.styled(Lab.Timeline)(({ theme }) => ({
+  [`& .${Lab.timelineItemClasses.root}:before`]: {
+    flex: 0,
+    padding: 0,
+  },
+}));
+
+const TimelineItem = ({
+  label,
+  to,
+}: {
+  to: FileRouteTypes["to"];
+  label: string;
+}) => {
+  return (
+    <Lab.TimelineItem>
+      <Lab.TimelineSeparator>
+        <Lab.TimelineDot />
+        <Lab.TimelineConnector />
+      </Lab.TimelineSeparator>
+      <Lab.TimelineContent>
+        <M.Link component={Link} to={to}>
+          {label}
+        </M.Link>
+      </Lab.TimelineContent>
+    </Lab.TimelineItem>
+  );
+};
 
 function PackagesIndexComponent() {
   const matchRoute = useMatchRoute();
@@ -85,6 +117,15 @@ function PackagesIndexComponent() {
                   </M.Link>
                 </M.RadioGroup>
               </M.FormControl>
+            </Paper>
+
+            <M.Typography sx={{ mt: 2 }} variant="subtitle1">
+              Wide table drill
+            </M.Typography>
+            <Paper sx={{ mt: 1 }}>
+              <Timeline>
+                <TimelineItem label="Initial" to="/search/wide/initial" />
+              </Timeline>
             </Paper>
 
             <M.Typography sx={{ mt: 2 }} variant="subtitle1">
