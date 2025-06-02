@@ -32,6 +32,7 @@ import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
 import { Route as SearchWideThirdImport } from './routes/search.wide.third'
 import { Route as SearchWideSecondImport } from './routes/search.wide.second'
+import { Route as SearchWideMessageImport } from './routes/search.wide.message'
 import { Route as SearchWideInitialImport } from './routes/search.wide.initial'
 import { Route as SearchWideFirstImport } from './routes/search.wide.first'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
@@ -163,6 +164,12 @@ const SearchWideThirdRoute = SearchWideThirdImport.update({
 const SearchWideSecondRoute = SearchWideSecondImport.update({
   id: '/wide/second',
   path: '/wide/second',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchWideMessageRoute = SearchWideMessageImport.update({
+  id: '/wide/message',
+  path: '/wide/message',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -370,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchWideInitialImport
       parentRoute: typeof SearchRouteImport
     }
+    '/search/wide/message': {
+      id: '/search/wide/message'
+      path: '/wide/message'
+      fullPath: '/search/wide/message'
+      preLoaderRoute: typeof SearchWideMessageImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/wide/second': {
       id: '/search/wide/second'
       path: '/wide/second'
@@ -424,6 +438,7 @@ interface SearchRouteRouteChildren {
   SearchWideTableRoute: typeof SearchWideTableRoute
   SearchWideFirstRoute: typeof SearchWideFirstRoute
   SearchWideInitialRoute: typeof SearchWideInitialRoute
+  SearchWideMessageRoute: typeof SearchWideMessageRoute
   SearchWideSecondRoute: typeof SearchWideSecondRoute
   SearchWideThirdRoute: typeof SearchWideThirdRoute
 }
@@ -435,6 +450,7 @@ const SearchRouteRouteChildren: SearchRouteRouteChildren = {
   SearchWideTableRoute: SearchWideTableRoute,
   SearchWideFirstRoute: SearchWideFirstRoute,
   SearchWideInitialRoute: SearchWideInitialRoute,
+  SearchWideMessageRoute: SearchWideMessageRoute,
   SearchWideSecondRoute: SearchWideSecondRoute,
   SearchWideThirdRoute: SearchWideThirdRoute,
 }
@@ -511,6 +527,7 @@ export interface FileRoutesByFullPath {
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
   '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/message': typeof SearchWideMessageRoute
   '/search/wide/second': typeof SearchWideSecondRoute
   '/search/wide/third': typeof SearchWideThirdRoute
 }
@@ -536,6 +553,7 @@ export interface FileRoutesByTo {
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
   '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/message': typeof SearchWideMessageRoute
   '/search/wide/second': typeof SearchWideSecondRoute
   '/search/wide/third': typeof SearchWideThirdRoute
 }
@@ -566,6 +584,7 @@ export interface FileRoutesById {
   '/posts_/$postId/deep': typeof PostsPostIdDeepRoute
   '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/message': typeof SearchWideMessageRoute
   '/search/wide/second': typeof SearchWideSecondRoute
   '/search/wide/third': typeof SearchWideThirdRoute
 }
@@ -596,6 +615,7 @@ export interface FileRouteTypes {
     | '/posts/$postId/deep'
     | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/message'
     | '/search/wide/second'
     | '/search/wide/third'
   fileRoutesByTo: FileRoutesByTo
@@ -620,6 +640,7 @@ export interface FileRouteTypes {
     | '/posts/$postId/deep'
     | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/message'
     | '/search/wide/second'
     | '/search/wide/third'
   id:
@@ -648,6 +669,7 @@ export interface FileRouteTypes {
     | '/posts_/$postId/deep'
     | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/message'
     | '/search/wide/second'
     | '/search/wide/third'
   fileRoutesById: FileRoutesById
@@ -724,6 +746,7 @@ export const routeTree = rootRoute
         "/search/wide-table",
         "/search/wide/first",
         "/search/wide/initial",
+        "/search/wide/message",
         "/search/wide/second",
         "/search/wide/third"
       ]
@@ -812,6 +835,10 @@ export const routeTree = rootRoute
     },
     "/search/wide/initial": {
       "filePath": "search.wide.initial.tsx",
+      "parent": "/search"
+    },
+    "/search/wide/message": {
+      "filePath": "search.wide.message.tsx",
       "parent": "/search"
     },
     "/search/wide/second": {

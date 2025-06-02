@@ -156,6 +156,11 @@ function PackagesIndexComponent() {
                   label="Workflow + `FolderName` + `StudyID` + `Test Material`"
                   to="/search/wide/third"
                 />
+                <TimelineItem
+                  description="Then they decide to filter on commit message"
+                  label="Workflow + `FolderName` + `StudyID` + `Test Material` + Commit message"
+                  to="/search/wide/message"
+                />
               </Timeline>
             </Paper>
 
