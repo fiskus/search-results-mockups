@@ -151,6 +151,11 @@ function PackagesIndexComponent() {
                   label="Workflow + `FolderName` + `StudyID`"
                   to="/search/wide/second"
                 />
+                <TimelineItem
+                  description="Then they select `Testing Material`"
+                  label="Workflow + `FolderName` + `StudyID` + `Test Material`"
+                  to="/search/wide/third"
+                />
               </Timeline>
             </Paper>
 

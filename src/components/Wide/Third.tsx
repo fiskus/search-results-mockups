@@ -4,7 +4,7 @@ import IconDataObject from "@mui/icons-material/DataObject";
 import IconSort from "@mui/icons-material/Sort";
 import IconSearch from "@mui/icons-material/Search";
 
-import PackageHitWide from "~/components/Wide/SecondHit";
+import PackageHitWide from "~/components/Wide/ThirdHit";
 import type { Package } from "~/types";
 
 const TableCell = M.styled(M.TableCell)({
@@ -27,12 +27,13 @@ export default function PackageTable({
               </M.IconButton>
             </TableCell>
             <TableCell>Package</TableCell>
+
             <TableCell>
               <M.Box sx={{ alignItems: "center", display: "flex" }}>
                 <IconDataObject
                   fontSize="small"
                   sx={{
-                    margin: "-4px 4px 0 0",
+                    margin: "-2px 8px 0 0",
                     color: "text.secondary",
                   }}
                 />
@@ -47,17 +48,38 @@ export default function PackageTable({
                 </M.IconButton>
               </M.Box>
             </TableCell>
+
             <TableCell>
               <M.Box sx={{ alignItems: "center", display: "flex" }}>
                 <IconDataObject
                   fontSize="small"
                   sx={{
-                    margin: "-4px 4px 0 0",
+                    margin: "-2px 8px 0 0",
                     color: "text.secondary",
                   }}
                 />
                 <M.Typography variant="subtitle2" sx={{ marginRight: "16px" }}>
                   StudyID
+                </M.Typography>
+                <M.IconButton size="small">
+                  <IconSearch fontSize="inherit" />
+                </M.IconButton>
+                <M.IconButton size="small">
+                  <IconSort fontSize="inherit" />
+                </M.IconButton>
+              </M.Box>
+            </TableCell>
+            <TableCell>
+              <M.Box sx={{ alignItems: "center", display: "flex" }}>
+                <IconDataObject
+                  fontSize="small"
+                  sx={{
+                    margin: "-2px 8px 0 0",
+                    color: "text.secondary",
+                  }}
+                />
+                <M.Typography variant="subtitle2" sx={{ marginRight: "16px" }}>
+                  Test Material
                 </M.Typography>
                 <M.IconButton size="small">
                   <IconSearch fontSize="inherit" />
