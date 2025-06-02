@@ -49,7 +49,7 @@ function SubTable({
   }, []);
   return (
     <M.TableRow sx={(t) => ({ background: t.palette.action.hover, ...sx })}>
-      <M.TableCell padding="none" colSpan={2} sx={{ maxWidth: "100px" }}>
+      <M.TableCell padding="none" colSpan={18} sx={{ maxWidth: "100px" }}>
         <M.Collapse in={open}>
           <M.Stack direction="row">
             <M.Box m={2} color="text.secondary">
@@ -126,6 +126,9 @@ export default function PackageHit({
           <M.Typography variant="caption" color="text.secondary">
             {row.bucket}
           </M.Typography>
+        </TableCell>
+        <TableCell>
+          {row.metadata && <MetadataValue value={row.metadata["FolderName"]} />}
         </TableCell>
       </M.TableRow>
       {entries && (

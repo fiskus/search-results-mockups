@@ -19,20 +19,31 @@ const Paper = M.styled(M.Paper)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-const Timeline = M.styled(Lab.Timeline)(({ theme }) => ({
+const Timeline = M.styled(Lab.Timeline)({
   [`& .${Lab.timelineItemClasses.root}:before`]: {
     flex: 0,
     padding: 0,
   },
-}));
+});
 
 const TimelineItem = ({
+  description,
   label,
   to,
 }: {
-  to: FileRouteTypes["to"];
+  description?: string;
   label: string;
+  to: FileRouteTypes["to"];
 }) => {
+  const matchRoute = useMatchRoute();
+  const active = matchRoute({ to });
+  const link = active ? (
+    label
+  ) : (
+    <M.Link component={Link} to={to}>
+      {label}
+    </M.Link>
+  );
   return (
     <Lab.TimelineItem>
       <Lab.TimelineSeparator>
@@ -40,9 +51,14 @@ const TimelineItem = ({
         <Lab.TimelineConnector />
       </Lab.TimelineSeparator>
       <Lab.TimelineContent>
-        <M.Link component={Link} to={to}>
-          {label}
-        </M.Link>
+        {description ? (
+          <>
+            <M.Typography variant="subtitle2">{link}</M.Typography>
+            <M.Typography variant="body2">{description}</M.Typography>
+          </>
+        ) : (
+          link
+        )}
       </Lab.TimelineContent>
     </Lab.TimelineItem>
   );
@@ -125,6 +141,16 @@ function PackagesIndexComponent() {
             <Paper sx={{ mt: 1 }}>
               <Timeline>
                 <TimelineItem label="Initial" to="/search/wide/initial" />
+                <TimelineItem
+                  description="Users select the workflow then they select some of the metadata keys"
+                  label="Workflow + `FolderName` key"
+                  to="/search/wide/first"
+                />
+                <TimelineItem
+                  description="Then they select `StudyID` appending to `FolderName`"
+                  label="Workflow + `FolderName` + `StudyID`"
+                  to="/search/wide/second"
+                />
               </Timeline>
             </Paper>
 

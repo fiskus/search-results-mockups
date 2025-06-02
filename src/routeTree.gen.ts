@@ -30,7 +30,9 @@ import { Route as SearchCardsImport } from './routes/search.cards'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as PackagesNameImport } from './routes/packages.$name'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
+import { Route as SearchWideSecondImport } from './routes/search.wide.second'
 import { Route as SearchWideInitialImport } from './routes/search.wide.initial'
+import { Route as SearchWideFirstImport } from './routes/search.wide.first'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 import { Route as PathlessLayoutNestedLayoutRouteBImport } from './routes/_pathlessLayout/_nested-layout/route-b'
 import { Route as PathlessLayoutNestedLayoutRouteAImport } from './routes/_pathlessLayout/_nested-layout/route-a'
@@ -151,9 +153,21 @@ const PathlessLayoutNestedLayoutRoute = PathlessLayoutNestedLayoutImport.update(
   } as any,
 )
 
+const SearchWideSecondRoute = SearchWideSecondImport.update({
+  id: '/wide/second',
+  path: '/wide/second',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
 const SearchWideInitialRoute = SearchWideInitialImport.update({
   id: '/wide/initial',
   path: '/wide/initial',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchWideFirstRoute = SearchWideFirstImport.update({
+  id: '/wide/first',
+  path: '/wide/first',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -335,11 +349,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdDeepImport
       parentRoute: typeof rootRoute
     }
+    '/search/wide/first': {
+      id: '/search/wide/first'
+      path: '/wide/first'
+      fullPath: '/search/wide/first'
+      preLoaderRoute: typeof SearchWideFirstImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/wide/initial': {
       id: '/search/wide/initial'
       path: '/wide/initial'
       fullPath: '/search/wide/initial'
       preLoaderRoute: typeof SearchWideInitialImport
+      parentRoute: typeof SearchRouteImport
+    }
+    '/search/wide/second': {
+      id: '/search/wide/second'
+      path: '/wide/second'
+      fullPath: '/search/wide/second'
+      preLoaderRoute: typeof SearchWideSecondImport
       parentRoute: typeof SearchRouteImport
     }
   }
@@ -380,7 +408,9 @@ interface SearchRouteRouteChildren {
   SearchMetadataGridRoute: typeof SearchMetadataGridRoute
   SearchPackagedRoute: typeof SearchPackagedRoute
   SearchWideTableRoute: typeof SearchWideTableRoute
+  SearchWideFirstRoute: typeof SearchWideFirstRoute
   SearchWideInitialRoute: typeof SearchWideInitialRoute
+  SearchWideSecondRoute: typeof SearchWideSecondRoute
 }
 
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
@@ -388,7 +418,9 @@ const SearchRouteRouteChildren: SearchRouteRouteChildren = {
   SearchMetadataGridRoute: SearchMetadataGridRoute,
   SearchPackagedRoute: SearchPackagedRoute,
   SearchWideTableRoute: SearchWideTableRoute,
+  SearchWideFirstRoute: SearchWideFirstRoute,
   SearchWideInitialRoute: SearchWideInitialRoute,
+  SearchWideSecondRoute: SearchWideSecondRoute,
 }
 
 const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
@@ -461,7 +493,9 @@ export interface FileRoutesByFullPath {
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
+  '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/second': typeof SearchWideSecondRoute
 }
 
 export interface FileRoutesByTo {
@@ -483,7 +517,9 @@ export interface FileRoutesByTo {
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
+  '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/second': typeof SearchWideSecondRoute
 }
 
 export interface FileRoutesById {
@@ -510,7 +546,9 @@ export interface FileRoutesById {
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/_pathlessLayout/_nested-layout/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/posts_/$postId/deep': typeof PostsPostIdDeepRoute
+  '/search/wide/first': typeof SearchWideFirstRoute
   '/search/wide/initial': typeof SearchWideInitialRoute
+  '/search/wide/second': typeof SearchWideSecondRoute
 }
 
 export interface FileRouteTypes {
@@ -537,7 +575,9 @@ export interface FileRouteTypes {
     | '/route-a'
     | '/route-b'
     | '/posts/$postId/deep'
+    | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/second'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -558,7 +598,9 @@ export interface FileRouteTypes {
     | '/route-a'
     | '/route-b'
     | '/posts/$postId/deep'
+    | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/second'
   id:
     | '__root__'
     | '/'
@@ -583,7 +625,9 @@ export interface FileRouteTypes {
     | '/_pathlessLayout/_nested-layout/route-a'
     | '/_pathlessLayout/_nested-layout/route-b'
     | '/posts_/$postId/deep'
+    | '/search/wide/first'
     | '/search/wide/initial'
+    | '/search/wide/second'
   fileRoutesById: FileRoutesById
 }
 
@@ -656,7 +700,9 @@ export const routeTree = rootRoute
         "/search/metadata-grid",
         "/search/packaged",
         "/search/wide-table",
-        "/search/wide/initial"
+        "/search/wide/first",
+        "/search/wide/initial",
+        "/search/wide/second"
       ]
     },
     "/users": {
@@ -737,8 +783,16 @@ export const routeTree = rootRoute
     "/posts_/$postId/deep": {
       "filePath": "posts_.$postId.deep.tsx"
     },
+    "/search/wide/first": {
+      "filePath": "search.wide.first.tsx",
+      "parent": "/search"
+    },
     "/search/wide/initial": {
       "filePath": "search.wide.initial.tsx",
+      "parent": "/search"
+    },
+    "/search/wide/second": {
+      "filePath": "search.wide.second.tsx",
       "parent": "/search"
     }
   }
